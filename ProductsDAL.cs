@@ -10,12 +10,77 @@ namespace DAL
 {
     public class ProductsDAL
     {
+        DataSet ds = new DataSet("nw");//Dataset is In -memory cache
+        public DataView filterDataUsingDataView()
+        {
+            SqlConnection cn = new SqlConnection("server=spd\\sqlexpress;Integrated Security=true;database=northwind");
+            SqlDataAdapter da = new SqlDataAdapter("select * from customers", cn);
+            
+            da.Fill(ds, "customers");
+            DataView dataView = new DataView(ds.Tables["customers"]);
+            //dataview is used for searching,sorting,navigations,editing etc
+            dataView.Sort = "City DESC";
+            //DataTable dt1 = new DataTable();
+            //dt1 = dataView.Table;
+            //return dt1;
+            return dataView;
+
+
+
+
+        }
+
+        public DataView DataViewFilterContactName(string contactname)
+        {
+            SqlConnection cn = new SqlConnection("server=spd\\sqlexpress;Integrated Security=true;database=northwind");
+            SqlDataAdapter da = new SqlDataAdapter("select * from customers", cn);
+
+            da.Fill(ds, "customers");
+            DataView dataView = new DataView(ds.Tables["customers"],"ContactName='" + contactname+"'","ContactName",DataViewRowState.CurrentRows);
+            return dataView;
+
+        }
+
+
+
+
+
+        public bool SearchDataUsingDataView(string coname)
+        {
+            SqlConnection cn = new SqlConnection("server=spd\\sqlexpress;Integrated Security=true;database=northwind");
+            SqlDataAdapter da = new SqlDataAdapter("select * from customers", cn);
+
+            da.Fill(ds, "customers");
+            DataView dataView = new DataView(ds.Tables["customers"]);
+            //dataview is used for searching,sorting,navigations,editing etc
+            dataView.Sort = "CompanyName";
+            int index=dataView.Find(coname);
+            bool status;
+            if (index == -1)
+            {
+                status = false;
+            }
+            else
+            {
+                status = true;
+            }
+            
+            return status;
+
+
+
+
+        }
+
+
+
+
         public bool UpdateProductDataUsingDA(Products p)
         {
             bool status = false;
             SqlConnection cn = new SqlConnection("server=spd\\sqlexpress;Integrated Security=true;database=northwind");
             SqlDataAdapter da = new SqlDataAdapter("select * from products", cn);//adapters can connect/disconnect dynamically
-            DataSet ds = new DataSet("nw");//Dataset is In -memory cache
+            
             da.MissingSchemaAction = MissingSchemaAction.AddWithKey;
             da.Fill(ds, "products");//u can store multiple objects  in the daataset
                                     //1 type among the objects is table
@@ -40,7 +105,7 @@ namespace DAL
             bool status = false;
             SqlConnection cn = new SqlConnection("server=spd\\sqlexpress;Integrated Security=true;database=northwind");
             SqlDataAdapter da = new SqlDataAdapter("select * from products", cn);//adapters can connect/disconnect dynamically
-            DataSet ds = new DataSet("nw");//Dataset is In -memory cache
+     /*       DataSet ds = new DataSet("nw");//Dataset is In -memory cache*/
             da.MissingSchemaAction = MissingSchemaAction.AddWithKey;
             da.Fill(ds, "products");//u can store multiple objects  in the daataset
                                     //1 type among the objects is table
@@ -62,7 +127,7 @@ namespace DAL
             bool status = false;
             SqlConnection cn = new SqlConnection("server=spd\\sqlexpress;Integrated Security=true;database=northwind");
             SqlDataAdapter da = new SqlDataAdapter("select * from products",cn);//adapters can connect/disconnect dynamically
-            DataSet ds = new DataSet("nw");//Dataset is In -memory cache
+            //DataSet ds = new DataSet("nw");//Dataset is In -memory cache
             da.MissingSchemaAction = MissingSchemaAction.AddWithKey;
             da.Fill(ds, "products");//u can store multiple objects  in the daataset
             //1 type among the objects is table
@@ -97,7 +162,7 @@ namespace DAL
 
             SqlConnection cn = new SqlConnection("server=spd\\sqlexpress;Integrated Security=true;database=northwind");
             SqlDataAdapter da = new SqlDataAdapter("select * from products", cn);//adapters can connect/disconnect dynamically
-            DataSet ds = new DataSet("nw");//Dataset is In -memory cache
+            //DataSet ds = new DataSet("nw");//Dataset is In -memory cache
             da.MissingSchemaAction = MissingSchemaAction.AddWithKey;
             da.Fill(ds, "products");
             List<Products> products = new List<Products>();
