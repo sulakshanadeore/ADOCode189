@@ -1,0 +1,15 @@
+﻿LINQ
+-----Language Integrated Query
+
+It is used to work with Collections,DataTables,DataSets, etc
+
+query in c#
+lanugage integrated query
+
+collections--Object Type- OLINQ
+Query ---array
+	------List
+OLINQ
+DLINQ
+XLINQ
+
